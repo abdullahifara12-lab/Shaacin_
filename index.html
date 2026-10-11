@@ -1,0 +1,999 @@
+<!DOCTYPE html>
+<html lang="so">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>BURSALAH SECONDARY SCHOOL</title>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial,sans-serif;
+}
+
+body{
+    min-height:100vh;
+    background:
+    radial-gradient(circle at top left,#173b8f,transparent 35%),
+    radial-gradient(circle at bottom right,#00a6a6,transparent 35%),
+    linear-gradient(135deg,#06142f,#071952);
+    color:white;
+}
+
+header{
+    text-align:center;
+    padding:35px 15px 25px;
+}
+
+.logo{
+    width:75px;
+    height:75px;
+    margin:auto;
+    border-radius:22px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    background:linear-gradient(135deg,#ffd700,#ff9d00);
+    color:#071952;
+    font-size:36px;
+    box-shadow:0 10px 30px rgba(0,0,0,.3);
+}
+
+header h1{
+    margin-top:15px;
+    font-size:28px;
+}
+
+header p{
+    margin-top:8px;
+    color:#ccecff;
+}
+
+.container{
+    width:94%;
+    max-width:900px;
+    margin:auto;
+}
+
+.search-box{
+    background:rgba(255,255,255,.10);
+    backdrop-filter:blur(18px);
+    border:1px solid rgba(255,255,255,.18);
+    border-radius:25px;
+    padding:25px;
+    box-shadow:0 20px 50px rgba(0,0,0,.3);
+}
+
+.search-box h2{
+    text-align:center;
+    margin-bottom:8px;
+}
+
+.description{
+    text-align:center;
+    color:#cdeaf4;
+    font-size:14px;
+    margin-bottom:25px;
+}
+
+label{
+    display:block;
+    margin-bottom:8px;
+    font-size:14px;
+    font-weight:bold;
+}
+
+input{
+    width:100%;
+    padding:16px;
+    border:none;
+    outline:none;
+    border-radius:14px;
+    font-size:17px;
+    background:white;
+    color:#17202a;
+    text-transform:uppercase;
+}
+
+button{
+    width:100%;
+    padding:16px;
+    border:0;
+    border-radius:14px;
+    margin-top:17px;
+    background:linear-gradient(90deg,#ffd700,#ffb300);
+    color:#071952;
+    font-size:17px;
+    font-weight:bold;
+    cursor:pointer;
+}
+
+button:active{
+    transform:scale(.98);
+}
+
+#result{
+    display:none;
+    margin-top:25px;
+    margin-bottom:30px;
+    background:#fff;
+    color:#17202a;
+    border-radius:25px;
+    padding:25px;
+    box-shadow:0 20px 50px rgba(0,0,0,.35);
+}
+
+.school-title{
+    text-align:center;
+    margin-bottom:20px;
+}
+
+.school-title h2{
+    color:#071952;
+    font-size:22px;
+}
+
+.school-title p{
+    color:#71808c;
+    margin-top:5px;
+}
+
+.student-info{
+    text-align:center;
+    padding-bottom:20px;
+    border-bottom:2px solid #edf1f5;
+}
+
+.avatar{
+    width:70px;
+    height:70px;
+    border-radius:50%;
+    background:linear-gradient(135deg,#071952,#088395);
+    color:white;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    margin:0 auto 12px;
+    font-size:28px;
+}
+
+.student-info h2{
+    color:#071952;
+    font-size:24px;
+}
+
+.student-info p{
+    margin-top:6px;
+    color:#65727e;
+}
+
+.badges{
+    margin-top:12px;
+}
+
+.badge{
+    display:inline-block;
+    padding:7px 13px;
+    border-radius:20px;
+    background:#e8f8fa;
+    color:#087786;
+    font-size:13px;
+    font-weight:bold;
+    margin:3px;
+}
+
+.table-wrapper{
+    overflow-x:auto;
+    margin-top:22px;
+}
+
+table{
+    width:100%;
+    min-width:600px;
+    border-collapse:collapse;
+}
+
+th{
+    padding:13px;
+    background:#071952;
+    color:white;
+}
+
+td{
+    padding:12px;
+    text-align:center;
+    border-bottom:1px solid #edf0f3;
+}
+
+tr:nth-child(even){
+    background:#f6fbfc;
+}
+
+.failed-row{
+    background:#fff0f0 !important;
+}
+
+.failed-mark{
+    color:#d62828;
+    font-weight:bold;
+}
+
+.passed-mark{
+    color:#16803c;
+    font-weight:bold;
+}
+
+.summary{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:12px;
+    margin-top:22px;
+}
+
+.summary-card{
+    background:#f1fafb;
+    padding:17px;
+    border-radius:16px;
+    text-align:center;
+}
+
+.summary-card small{
+    color:#65727e;
+}
+
+.summary-card strong{
+    display:block;
+    margin-top:7px;
+    color:#071952;
+    font-size:22px;
+}
+
+.status{
+    margin-top:20px;
+    padding:16px;
+    text-align:center;
+    border-radius:14px;
+    font-weight:bold;
+    font-size:17px;
+}
+
+.pass{
+    background:#d9f5df;
+    color:#146b2b;
+}
+
+.fail{
+    background:#ffe0e0;
+    color:#a51f1f;
+}
+
+.failed-subjects{
+    margin-top:20px;
+    padding:18px;
+    border-radius:15px;
+    background:#fff2f2;
+    border:1px solid #ffd0d0;
+}
+
+.failed-subjects h3{
+    color:#a51f1f;
+    margin-bottom:10px;
+}
+
+.failed-subjects ul{
+    padding-left:22px;
+}
+
+.failed-subjects li{
+    color:#a51f1f;
+    margin:6px 0;
+    font-weight:bold;
+}
+
+.parent-box{
+    margin-top:20px;
+    padding:18px;
+    border-radius:16px;
+    background:#eef8ff;
+    border:1px solid #cce8ff;
+}
+
+.parent-box h3{
+    color:#071952;
+    margin-bottom:8px;
+}
+
+.parent-box p{
+    color:#65727e;
+    font-size:14px;
+    margin-bottom:6px;
+}
+
+footer{
+    text-align:center;
+    padding:30px 15px;
+    color:#bfe8f0;
+    font-size:13px;
+}
+
+.error-box{
+    text-align:center;
+    padding:35px;
+}
+
+.error-icon{
+    font-size:55px;
+}
+
+.error-box h2{
+    color:#b21f1f;
+    margin-top:10px;
+}
+
+.error-box p{
+    margin-top:10px;
+    color:#65727e;
+}
+
+@media(max-width:600px){
+
+    header h1{
+        font-size:22px;
+    }
+
+    .search-box{
+        padding:20px;
+    }
+
+    .summary{
+        grid-template-columns:1fr;
+    }
+
+    #result{
+        padding:18px;
+    }
+
+}
+</style>
+</head>
+
+<body>
+
+<header>
+
+    <div class="logo">🎓</div>
+
+    <h1>BURSALAH SECONDARY SCHOOL</h1>
+
+    <p>Student Results Portal</p>
+
+</header>
+
+
+<div class="container">
+
+    <div class="search-box">
+
+        <h2>🔎 Raadi Natiijada Ardayga</h2>
+
+        <p class="description">
+            Geli Roll Number-ka ardayga si aad u aragto natiijadiisa
+        </p>
+
+        <form id="searchForm">
+
+            <label for="rollNumber">
+                Roll Number
+            </label>
+
+            <input
+                type="text"
+                id="rollNumber"
+                placeholder="Geli Roll Number"
+                autocomplete="off"
+                autocapitalize="characters"
+            >
+
+            <button type="submit">
+                🔍 Raadi Natiijada
+            </button>
+
+        </form>
+
+    </div>
+
+
+    <div id="result"></div>
+
+</div>
+
+
+<footer>
+
+© 2026 BURSALAH SECONDARY SCHOOL
+
+<br>
+
+Student Results Management System
+
+</footer>
+
+
+<script>
+
+/* ==========================================
+   STUDENTS
+========================================== */
+
+const students = {
+
+"BS2601":{name:"Ayaan Cabdi",class:"Fasalka 1aad"},
+"BS2602":{name:"Mohamed Xasan",class:"Fasalka 1aad"},
+"BS2603":{name:"Abdullahi Omar",class:"Fasalka 1aad"},
+"BS2604":{name:"Hodan Ali",class:"Fasalka 1aad"},
+"BS2605":{name:"Yusuf Ahmed",class:"Fasalka 1aad"},
+"BS2606":{name:"Sahra Mohamed",class:"Fasalka 1aad"},
+"BS2607":{name:"Ismail Hassan",class:"Fasalka 1aad"},
+"BS2608":{name:"Maryan Abdi",class:"Fasalka 1aad"},
+"BS2609":{name:"Omar Yusuf",class:"Fasalka 1aad"},
+"BS2610":{name:"Fatima Ali",class:"Fasalka 1aad"},
+
+"BS2611":{name:"Abdirahman Jama",class:"Fasalka 2aad"},
+"BS2612":{name:"Khadra Hassan",class:"Fasalka 2aad"},
+"BS2613":{name:"Ahmed Noor",class:"Fasalka 2aad"},
+"BS2614":{name:"Asma Ali",class:"Fasalka 2aad"},
+"BS2615":{name:"Hussein Omar",class:"Fasalka 2aad"},
+"BS2616":{name:"Nimco Mohamed",class:"Fasalka 2aad"},
+"BS2617":{name:"Ibrahim Abdullahi",class:"Fasalka 2aad"},
+"BS2618":{name:"Hawa Yusuf",class:"Fasalka 2aad"},
+"BS2619":{name:"Ali Hassan",class:"Fasalka 2aad"},
+"BS2620":{name:"Amina Abdi",class:"Fasalka 2aad"},
+
+"BS2621":{name:"Mustafa Ahmed",class:"Fasalka 3aad"},
+"BS2622":{name:"Sumaya Omar",class:"Fasalka 3aad"},
+"BS2623":{name:"Abdiqani Hassan",class:"Fasalka 3aad"},
+"BS2624":{name:"Ilham Ali",class:"Fasalka 3aad"},
+"BS2625":{name:"Mahad Yusuf",class:"Fasalka 3aad"},
+"BS2626":{name:"Zahra Mohamed",class:"Fasalka 3aad"},
+"BS2627":{name:"Abdinasir Ali",class:"Fasalka 3aad"},
+"BS2628":{name:"Ruqiya Hassan",class:"Fasalka 3aad"},
+"BS2629":{name:"Hamza Abdi",class:"Fasalka 3aad"},
+"BS2630":{name:"Deeqa Omar",class:"Fasalka 3aad"},
+
+"BS2631":{name:"Said Mohamed",class:"Fasalka 4aad"},
+"BS2632":{name:"Nasteexo Ali",class:"Fasalka 4aad"},
+"BS2633":{name:"Abdullahi Hassan",class:"Fasalka 4aad"},
+"BS2634":{name:"Muna Ahmed",class:"Fasalka 4aad"},
+"BS2635":{name:"Mohamed Abdi",class:"Fasalka 4aad"},
+"BS2636":{name:"Hibo Yusuf",class:"Fasalka 4aad"},
+"BS2637":{name:"Abdirahman Omar",class:"Fasalka 4aad"},
+"BS2638":{name:"Sakina Hassan",class:"Fasalka 4aad"},
+"BS2639":{name:"Yasin Ali",class:"Fasalka 4aad"},
+"BS2640":{name:"Asha Mohamed",class:"Fasalka 4aad"},
+
+"BS2641":{name:"Ismail Mohamed",class:"Fasalka 5aad"},
+"BS2642":{name:"Hani Ahmed",class:"Fasalka 5aad"},
+"BS2643":{name:"Abdi Yusuf",class:"Fasalka 5aad"},
+"BS2644":{name:"Layla Hassan",class:"Fasalka 5aad"},
+"BS2645":{name:"Othman Ali",class:"Fasalka 5aad"},
+"BS2646":{name:"Maryan Omar",class:"Fasalka 5aad"},
+"BS2647":{name:"Hassan Abdi",class:"Fasalka 5aad"},
+"BS2648":{name:"Fadumo Yusuf",class:"Fasalka 5aad"},
+"BS2649":{name:"Abdikarim Ahmed",class:"Fasalka 5aad"},
+"BS2650":{name:"Shukri Ali",class:"Fasalka 5aad"},
+
+"BS2651":{name:"Abdirizak Hassan",class:"Fasalka 6aad"},
+"BS2652":{name:"Rahma Ali",class:"Fasalka 6aad"},
+"BS2653":{name:"Abdinasir Mohamed",class:"Fasalka 6aad"},
+"BS2654":{name:"Sahra Ahmed",class:"Fasalka 6aad"},
+"BS2655":{name:"Yusuf Hassan",class:"Fasalka 6aad"},
+"BS2656":{name:"Hodan Omar",class:"Fasalka 6aad"},
+"BS2657":{name:"Mohamed Yusuf",class:"Fasalka 6aad"},
+"BS2658":{name:"Amina Hassan",class:"Fasalka 6aad"},
+"BS2659":{name:"Abdullahi Ali",class:"Fasalka 6aad"},
+"BS2660":{name:"Nadiifo Mohamed",class:"Fasalka 6aad"},
+
+"BS2661":{name:"Abdiqadir Ahmed",class:"Fasalka 7aad"},
+"BS2662":{name:"Fartun Ali",class:"Fasalka 7aad"},
+"BS2663":{name:"Hussein Hassan",class:"Fasalka 7aad"},
+"BS2664":{name:"Nimco Yusuf",class:"Fasalka 7aad"},
+"BS2665":{name:"Ibrahim Mohamed",class:"Fasalka 7aad"},
+"BS2666":{name:"Sahro Omar",class:"Fasalka 7aad"},
+"BS2667":{name:"Abdullahi Jama",class:"Fasalka 7aad"},
+"BS2668":{name:"Ifrah Hassan",class:"Fasalka 7aad"},
+"BS2669":{name:"Ahmed Abdi",class:"Fasalka 7aad"},
+"BS2670":{name:"Khadra Mohamed",class:"Fasalka 7aad"},
+
+"BS2671":{name:"Mohamed Hassan",class:"Fasalka 8aad"},
+"BS2672":{name:"Hawa Ali",class:"Fasalka 8aad"},
+"BS2673":{name:"Abdirahman Yusuf",class:"Fasalka 8aad"},
+"BS2674":{name:"Amina Mohamed",class:"Fasalka 8aad"},
+"BS2675":{name:"Abdiqani Ali",class:"Fasalka 8aad"},
+"BS2676":{name:"Nasteexo Hassan",class:"Fasalka 8aad"},
+"BS2677":{name:"Yasin Omar",class:"Fasalka 8aad"},
+"BS2678":{name:"Fadumo Ahmed",class:"Fasalka 8aad"},
+"BS2679":{name:"Omar Hassan",class:"Fasalka 8aad"},
+"BS2680":{name:"Hodan Mohamed",class:"Fasalka 8aad"},
+
+"BS2681":{name:"Abdullahi Mohamed",class:"Fasalka 9aad"},
+"BS2682":{name:"Sahra Hassan",class:"Fasalka 9aad"},
+"BS2683":{name:"Ahmed Yusuf",class:"Fasalka 9aad"},
+"BS2684":{name:"Maryan Ali",class:"Fasalka 9aad"},
+"BS2685":{name:"Ibrahim Omar",class:"Fasalka 9aad"},
+"BS2686":{name:"Hibo Hassan",class:"Fasalka 9aad"},
+"BS2687":{name:"Abdirahman Ali",class:"Fasalka 9aad"},
+"BS2688":{name:"Zahra Ahmed",class:"Fasalka 9aad"},
+"BS2689":{name:"Mustafa Hassan",class:"Fasalka 9aad"},
+"BS2690":{name:"Asma Mohamed",class:"Fasalka 9aad"},
+
+"BS2691":{name:"Abdirahman Hassan",class:"Fasalka 10aad"},
+"BS2692":{name:"Fatima Yusuf",class:"Fasalka 10aad"},
+"BS2693":{name:"Mohamed Ali",class:"Fasalka 10aad"},
+"BS2694":{name:"Hodan Hassan",class:"Fasalka 10aad"},
+"BS2695":{name:"Abdinasir Omar",class:"Fasalka 10aad"},
+"BS2696":{name:"Ruqiya Ali",class:"Fasalka 10aad"},
+"BS2697":{name:"Yusuf Mohamed",class:"Fasalka 10aad"},
+"BS2698":{name:"Ayaan Hassan",class:"Fasalka 10aad"},
+"BS2699":{name:"Ismail Ali",class:"Fasalka 10aad"},
+"BS2700":{name:"Khadra Yusuf",class:"Fasalka 10aad"}
+
+};
+
+
+/* ==========================================
+   SUBJECTS
+========================================== */
+
+const subjects = [
+    "English",
+    "Mathematics",
+    "Physics",
+    "Chemistry",
+    "Biology",
+    "Somali",
+    "Arabic",
+    "Geography",
+    "History",
+    "Computer"
+];
+
+
+/* ==========================================
+   MARKS
+========================================== */
+
+function getMarks(roll){
+
+    const number = parseInt(
+        roll.replace("BS",""),
+        10
+    );
+
+    const marks = [];
+
+    subjects.forEach(function(subject,index){
+
+        const mark =
+            (number * 7 + index * 19) % 101;
+
+        marks.push(mark);
+
+    });
+
+    return marks;
+}
+
+
+/* ==========================================
+   GRADE
+========================================== */
+
+function getGrade(mark){
+
+    if(mark >= 90) return "A+";
+    if(mark >= 80) return "A";
+    if(mark >= 70) return "B";
+    if(mark >= 60) return "C";
+    if(mark >= 50) return "D";
+
+    return "E";
+}
+
+
+/* ==========================================
+   SEARCH
+========================================== */
+
+function searchStudent(){
+
+    const input =
+        document.getElementById("rollNumber");
+
+    const result =
+        document.getElementById("result");
+
+    let roll =
+        input.value
+        .trim()
+        .toUpperCase()
+        .replace(/\s+/g,"");
+
+
+    if(roll === ""){
+
+        alert("Fadlan geli Roll Number-ka.");
+
+        input.focus();
+
+        return;
+    }
+
+
+    const student =
+        students[roll];
+
+
+    /* ARDAY LAMA HELIN */
+
+    if(!student){
+
+        result.style.display = "block";
+
+        result.innerHTML = `
+
+            <div class="error-box">
+
+                <div class="error-icon">
+                    🔍
+                </div>
+
+                <h2>
+                    Ardayga lama helin
+                </h2>
+
+                <p>
+                    Roll Number-ka
+                    <b>${roll}</b>
+                    lama helin.
+                </p>
+
+            </div>
+
+        `;
+
+        return;
+    }
+
+
+    /* MARKS */
+
+    const marks =
+        getMarks(roll);
+
+
+    let total = 0;
+
+    let failedSubjects = [];
+
+
+    marks.forEach(function(mark,index){
+
+        total += mark;
+
+        if(mark < 50){
+
+            failedSubjects.push(
+                subjects[index]
+            );
+
+        }
+
+    });
+
+
+    const average =
+        total / subjects.length;
+
+
+    const overallGrade =
+        getGrade(average);
+
+
+    /*
+       7 AMA KA BADAN = DHACAY
+       0 ilaa 6 = GUDUBAY
+    */
+
+    const passed =
+        failedSubjects.length < 7;
+
+
+    /* TABLE */
+
+    let table = `
+
+        <div class="table-wrapper">
+
+            <table>
+
+                <thead>
+
+                    <tr>
+
+                        <th>#</th>
+                        <th>Maaddada</th>
+                        <th>Dhibcaha</th>
+                        <th>Grade</th>
+                        <th>Status</th>
+
+                    </tr>
+
+                </thead>
+
+                <tbody>
+
+    `;
+
+
+    subjects.forEach(function(subject,index){
+
+        const mark =
+            marks[index];
+
+        const failed =
+            mark < 50;
+
+
+        table += `
+
+            <tr class="${failed ? "failed-row" : ""}">
+
+                <td>
+                    ${index + 1}
+                </td>
+
+                <td>
+                    ${subject}
+                </td>
+
+                <td class="
+                    ${failed
+                    ? "failed-mark"
+                    : "passed-mark"}
+                ">
+                    ${mark}/100
+                </td>
+
+                <td>
+                    <b>
+                        ${getGrade(mark)}
+                    </b>
+                </td>
+
+                <td>
+                    ${
+                        failed
+                        ? "❌ Dhacay"
+                        : "✅ Gudbay"
+                    }
+                </td>
+
+            </tr>
+
+        `;
+
+    });
+
+
+    table += `
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    `;
+
+
+    /* FAILED SUBJECTS */
+
+    let failedHTML = "";
+
+
+    if(failedSubjects.length > 0){
+
+        failedHTML = `
+
+            <div class="failed-subjects">
+
+                <h3>
+                    ❌ Maaddooyinka uu ku dhacay
+                </h3>
+
+                <ul>
+
+                    ${
+                        failedSubjects
+                        .map(function(subject){
+
+                            return `
+                                <li>
+                                    ${subject}
+                                </li>
+                            `;
+
+                        })
+                        .join("")
+                    }
+
+                </ul>
+
+                <p style="
+                    margin-top:12px;
+                    color:#555;
+                ">
+
+                    Tirada maaddooyinka uu ku dhacay:
+
+                    <b>
+                        ${failedSubjects.length}
+                    </b>
+
+                </p>
+
+            </div>
+
+        `;
+
+    }
+
+
+    /* RESULT */
+
+    result.innerHTML = `
+
+        <div class="school-title">
+
+            <h2>
+                BURSALAH SECONDARY SCHOOL
+            </h2>
+
+            <p>
+                Official Student Result
+            </p>
+
+        </div>
+
+
+        <div class="student-info">
+
+            <div class="avatar">
+                🎓
+            </div>
+
+            <h2>
+                ${student.name}
+            </h2>
+
+            <p>
+                ${student.class}
+            </p>
+
+            <div class="badges">
+
+                <span class="badge">
+                    🆔 ${roll}
+                </span>
+
+                <span class="badge">
+                    📚 ${student.class}
+                </span>
+
+            </div>
+
+        </div>
+
+
+        ${table}
+
+
+        <div class="summary">
+
+            <div class="summary-card">
+
+                <small>
+                    Total
+                </small>
+
+                <strong>
+                    ${total}/1000
+                </strong>
+
+            </div>
+
+
+            <div class="summary-card">
+
+                <small>
+                    Average
+                </small>
+
+                <strong>
+                    ${average.toFixed(1)}%
+                </strong>
+
+            </div>
+
+
+            <div class="summary-card">
+
+                <small>
+                    Overall Grade
+                </small>
+
+                <strong>
+                    ${overallGrade}
+                </strong>
+
+            </div>
+
+        </div>
+
+
+        <div class="
+            status
+            ${passed ? "pass" : "fail"}
+        ">
+
+            ${
+                passed
+                ? "🎉 HAMBALYO! ARDAYGU WUU GUDUBAY."
+                : "❌ ARDAYGU WUU DHACAY."
+            }
+
+        </div>
+
+
+        ${failedHTML}
+
+    `;
+
+
+    result.style.display = "block";
+
+
+    setTimeout(function(){
+
+        result.scrollIntoView({
+            behavior:"smooth",
+            block:"start"
+        });
+
+    },100);
+
+}
+
+
+/* ==========================================
+   FORM SUBMIT
+   BUTTON + ENTER
+========================================== */
+
+document
+.getElementById("searchForm")
+.addEventListener("submit",function(event){
+
+    event.preventDefault();
+
+    searchStudent();
+
+});
+
+</script>
+
+</body>
+</html>
